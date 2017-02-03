@@ -31,13 +31,22 @@ function dataLoaded(err,trips,stations){
 	*/
 
 	var cf = crossfilter(trips);
-	var tripsByType = cf.dimension(function(d){return d.userType});
+	var tripsByType = cf.dimension(function(d){ return d.userType ;});
 
 	var allTrips = tripsByType.filter(null).top(Infinity),
 		registeredTrips = tripsByType.filter('Registered').top(Infinity),
 		casualTrips = tripsByType.filter('Casual').top(Infinity);
 
-	
+
+	// Timeseries( d3.select('#plot-1'));
+	// Timeseries( d3.select('#plot-2'));
+
+	// d3.select('#plot-3').call(Timeseries); //way 1
+
+	d3.select('#plot-1').datum(registeredTrips).call(Timeseries);
+	d3.select('#plot-2').datum(allTrips).call(Timeseries);  //advanced way of calling a selection AND binding data
+	d3.select('#plot-3').datum(casualTrips).call(Timeseries);
+
 }
 
 function parseTrips(d){
@@ -51,7 +60,7 @@ function parseTrips(d){
 		userType:d.subsc_type,
 		userGender:d.gender?d.gender:undefined,
 		userBirthdate:d.birth_date?+d.birth_date:undefined
-	}
+	};
 }
 
 function parseStations(d){
@@ -62,7 +71,7 @@ function parseStations(d){
 		name:d.station,
 		status:d.status,
 		terminal:d.terminal
-	}
+	};
 }
 
 function parseTime(timeStr){
