@@ -28,6 +28,7 @@ function Timeseries(selection){
 			)])
 		.range([h, 0]);
 
+
 	// ---- Line and Area generators ----
 	var line = d3.line()
 		.x(function(d) { return scaleX(d.x0); })
